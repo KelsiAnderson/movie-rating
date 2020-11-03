@@ -52,6 +52,11 @@ def all_users():
     """return all users"""
     return User.query.all()
 
+def get_users_by_id(user_id):
+    """get users by id"""
+    
+    user_by_id = User.query.get(user_id)
+    return user_by_id
 
 
 
