@@ -18,6 +18,32 @@ def homepage():
 
 
 
+@app.route('/movies')
+def movies():
+
+    all_movies = crud.all_movies()
+
+    return render_template('all_movies.html', movies=all_movies)
+
+
+
+@app.route('/movies/<movie_id>')
+def movie_details(movie_id):
+    """return movie details"""
+    
+    details = crud.get_movie_by_id(movie_id)
+
+    return render_template('movie_details.html', details=details)
+
+@app.route('/users')
+def users():
+
+    all_users = crud.all_users()
+
+    return render_template('users.html', users=all_users)
+
+
+
 if __name__ == '__main__':
     connect_to_db(app)
     app.run(host='0.0.0.0', debug=True)
