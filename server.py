@@ -1,4 +1,5 @@
-"""Server for movie ratings app."""
+# """  """"""Server for movie ratings app."""
+
 from flask import (Flask, render_template, request, flash, session, redirect)
 
 from model import connect_to_db
@@ -41,7 +42,6 @@ def users():
     all_users = crud.all_users()
 
     return render_template('users.html', users=all_users)
-    
 
 @app.route('/users/<user_id>')
 def user_detial(user_id):
@@ -50,8 +50,19 @@ def user_detial(user_id):
 
     return render_template('user_profile.html', user_details=user_details)
 
+@app.route('/users', methods=['POST'])
+def create_account():
 
+    email = request.form.get('email')
+    password = request.form.get('password')
 
-if __name__ == '__main__':
-    connect_to_db(app)
-    app.run(host='0.0.0.0', debug=True)
+    user = crud.get_user_by_email(email)
+    if user is None:
+        user = crud.create_user(email, password)
+        flash('Account created! Now log in.')
+        return redirect('/')
+    else:
+        flash("User already exists. Please try again...")
+        return redirect('/')
+
+    

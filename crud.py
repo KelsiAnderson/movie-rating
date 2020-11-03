@@ -29,12 +29,13 @@ def create_movie(title, overview, release_date, poster_path):
 def create_rating(user, score, movie):
     """create and retrun a rating"""
 
-    rating = Rating(user = user, score = score, movie = movie)
+    rating = Rating(user=user, score=score, movie=movie)
 
     db.session.add(rating)
     db.session.commit()
 
     return rating
+
 
 def all_movies():
     """Return all movies."""
@@ -58,7 +59,10 @@ def get_users_by_id(user_id):
     user_by_id = User.query.get(user_id)
     return user_by_id
 
-
+def get_user_by_email(email):
+    """"return the user by the email address"""
+    
+    return User.query.filter(User.email == email).first()
 
 if __name__ == '__main__':
     from server import app

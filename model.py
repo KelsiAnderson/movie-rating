@@ -17,6 +17,9 @@ class User(db.Model):
     email = db.Column(db.String, unique=True)
     password = db.Column(db.String)
 
+    # ratings = a list of Rating objects
+
+
     def __repr__(self):
         return f'<User user_id={self.user_id} email={self.email}>'
 
@@ -31,8 +34,11 @@ class Movie(db.Model):
                         primary_key=True)
     title = db.Column(db.String)
     overview = db.Column(db.Text)
-    release_date = db.Column(db.DateTame)
+    release_date = db.Column(db.DateTime)
     poster_path = db.Column(db.String)
+
+    # ratings = a list of Rating objects
+
 
     def __repr__(self):
         return f'<User movie_id={self.movie_id} title={self.title}>'
@@ -48,15 +54,17 @@ class Rating(db.Model):
                         autoincrement=True,
                         primary_key=True)
     score = db.Column(db.Integer)
-    movie_id = db.Column(db.Integer, db.ForeignKey('movie.movie_id'))
-    user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
-
+    movie_id = db.Column(db.Integer, db.ForeignKey('movies.movie_id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
 
     movie = db.relationship('Movie', backref='ratings')
     user = db.relationship('User', backref='ratings')
 
+
     def __repr__(self):
         return f'<Rating rating_id={self.rating_id} score={self.score}>'
+
+
 
 def connect_to_db(flask_app, db_uri='postgresql:///ratings', echo=True):
     flask_app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
