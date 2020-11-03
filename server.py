@@ -41,6 +41,14 @@ def users():
     all_users = crud.all_users()
 
     return render_template('users.html', users=all_users)
+    
+
+@app.route('/users/<user_id>')
+def user_detial(user_id):
+
+    user_details = crud.get_users_by_id(user_id)
+
+    return render_template('user_profile.html', user_details=user_details)
 
 
 
